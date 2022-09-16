@@ -3,7 +3,8 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  min-width: 800px;
+  max-width: 100%;
 }
 
 .card {

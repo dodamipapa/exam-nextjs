@@ -1,17 +1,15 @@
-import Image from "next/image";
-
 import styles from "../styles/Home.module.scss";
 
-import result from "../utils/getUserdata";
+import result from "./api/getUserdata";
 import Users from "../component/users";
 
 // test
 import GridTable from "../component/gridTable";
 
-export default function Home({ tests, userdata }) {
+export default function Home({ gridTable, userdata }) {
   const createTest = async () => {
     const randomNum = Math.floor(Math.random() * 1000);
-    const res = await fetch("/api/test/add", {
+    const res = await fetch("/api/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,10 +19,8 @@ export default function Home({ tests, userdata }) {
         email: `test${randomNum}@test.com`,
       }),
     });
-    //console.log(`@@@@@@@@@@@@@@@@@@@@@@@`);
+
     const data = await res.json();
-    //console.log(data);
-    //console.log(userdata);
   };
 
   return (
@@ -35,68 +31,24 @@ export default function Home({ tests, userdata }) {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
         <Users userdata={userdata} />
-
-        <GridTable tests={tests} />
-
-        {/* <div className={styles.grid}>
-          {tests.map((test) => (
-            <a
-              href="https://nextjs.org/docs"
-              key={test._id}
-              className={styles.card}
-            >
-              <h2>{test.name} &rarr;</h2>
-              <p>{test.email}</p>
-            </a>
-          ))}
-        </div> */}
+        <GridTable gridtable={gridTable} />
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }
 
 export const getServerSideProps = async () => {
   try {
-    const tests = await GridTable.getServerSideProps();
+    const res = await fetch("http://localhost:3000/api/find");
+    const gridTable = await res.json();
 
-    console.log(`tests contents str`);
-    //console.log(tests);
-    console.log(`tests contents end`);
-
-    //console.log("CONNECTING TO MONGO");
-    //await connectMongo();
-    //console.log("CONNECTED TO MONGO");
-
-    //console.log("FETCHING DOCUMENTS");
-    //const tests = await testSchema.find();
-    //console.log("FETCHED DOCUMENTS");
-
-    console.log(`getUserdata str @@@@@@@@@@@@@@`);
+    // "./api/getUserdata"
     const userData = await result();
-    console.log(`getUserdata end @@@@@@@@@@@@@@`);
 
     return {
       props: {
-        tests: JSON.parse(JSON.stringify(tests)),
+        gridTable,
         userdata: JSON.parse(JSON.stringify(userData)),
       },
     };
