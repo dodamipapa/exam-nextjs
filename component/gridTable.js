@@ -3,7 +3,7 @@ import styles from "../styles/gridTable.module.scss";
 
 const GridTable = ({ gridtable }) => {
   console.log(`@render gridTable.js`);
-  console.log(gridtable);
+  //console.log(gridtable);
 
   return (
     <>

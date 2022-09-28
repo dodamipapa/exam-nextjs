@@ -10,15 +10,17 @@ const Users = ({ userdata }) => {
       <h1>Users page</h1>
 
       <ul>
-        {userdata.map((datas) => (
-          <li key={datas.id}>
-            <Link href={`${datas.id}`}>
-              <a>
-                {datas.name} : {datas.email}
-              </a>
-            </Link>
-          </li>
-        ))}
+        {userdata
+          .filter((v) => v.id < 11)
+          .map((datas) => (
+            <li key={datas.id}>
+              <Link href={`${datas.id}`}>
+                <a>
+                  {datas.name} : {datas.email}
+                </a>
+              </Link>
+            </li>
+          ))}
       </ul>
     </>
   );

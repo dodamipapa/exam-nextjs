@@ -13,7 +13,7 @@ export default async function findTest(req, res) {
     console.log("CONNECTED FIND TO MONGO");
 
     console.log("CREATING FIND DOCUMENT");
-    const test = await Test.find();
+    const test = await Test.find().sort({ amount: 1, _id: -1 });
     console.log("CREATED FIND DOCUMENT");
 
     res.json(test);
